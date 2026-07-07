@@ -1,54 +1,76 @@
 import { ReactNode } from 'react';
-import { User } from '../types';
+import { Link } from '@inertiajs/react';
+import { User } from '@/types';
 
-interface Props {
-    user: User;
-    header?: ReactNode;
-    children: ReactNode;
-}
-
-export default function AuthenticatedLayout({ user, header, children }: Props) {
+export default function Authenticated({ user, header, children }: { user: User, header?: ReactNode, children: ReactNode }) {
     return (
-        <div className="min-h-screen bg-gray-100">
-            <nav className="bg-white border-b border-gray-100">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
-                        <div className="flex">
-                            <div className="shrink-0 flex items-center">
-                                <span className="font-bold text-xl text-blue-600">Vendura</span>
-                            </div>
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <a href="#" className="inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out">
-                                    Dashboard
-                                </a>
-                                <a href="#" className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                                    Contracts
-                                </a>
-                                <a href="#" className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                                    Compliance
-                                </a>
-                            </div>
-                        </div>
-                        <div className="hidden sm:flex sm:items-center sm:ml-6">
-                            <div className="ml-3 relative">
-                                <span className="inline-flex rounded-md">
-                                    <button type="button" className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                        {user?.name || 'Guest'}
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans flex">
+            {/* Sidebar */}
+            <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
+                <div className="h-16 flex items-center px-6 border-b border-gray-200 dark:border-gray-700">
+                    <span className="text-xl font-semibold tracking-tight text-indigo-600 dark:text-indigo-400">Vendura</span>
                 </div>
-            </nav>
+                
+                <nav className="flex-1 px-4 py-6 space-y-1">
+                    <Link
+                        href="/dashboard"
+                        className="flex items-center px-3 py-2 text-sm font-medium rounded-sm bg-gray-100 dark:bg-gray-700 text-indigo-600 dark:text-indigo-400"
+                    >
+                        Dashboard
+                    </Link>
+                    
+                    <Link
+                        href="#"
+                        className="flex items-center px-3 py-2 text-sm font-medium rounded-sm text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
+                    >
+                        Contracts
+                    </Link>
 
-            {header && (
-                <header className="bg-white shadow">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
-                </header>
-            )}
+                    {/* Conditional rendering based on role */}
+                    {['MANAGER', 'FINANCE', 'DIREKTUR'].includes(user.role) && (
+                        <Link
+                            href="#"
+                            className="flex items-center px-3 py-2 text-sm font-medium rounded-sm text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
+                        >
+                            Approvals
+                        </Link>
+                    )}
 
-            <main>{children}</main>
+                    <Link
+                        href="#"
+                        className="flex items-center px-3 py-2 text-sm font-medium rounded-sm text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
+                    >
+                        Compliance
+                    </Link>
+                </nav>
+
+                <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+                    <div className="text-sm font-medium">{user.name}</div>
+                    <div className="text-xs text-gray-500 mb-4">{user.role}</div>
+                    <Link
+                        href="/logout"
+                        method="post"
+                        as="button"
+                        className="w-full text-left text-sm text-red-600 hover:text-red-700 font-medium"
+                    >
+                        Log Out
+                    </Link>
+                </div>
+            </aside>
+
+            {/* Main Content */}
+            <main className="flex-1 flex flex-col">
+                {header && (
+                    <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                            {header}
+                        </div>
+                    </header>
+                )}
+                <div className="flex-1 p-6">
+                    {children}
+                </div>
+            </main>
         </div>
     );
 }

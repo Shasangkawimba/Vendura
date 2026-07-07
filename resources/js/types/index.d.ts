@@ -2,8 +2,8 @@ export interface User {
     id: number;
     name: string;
     email: string;
-    role: 'ADMIN' | 'MANAGER' | 'FINANCE' | 'DIREKTUR';
     email_verified_at?: string;
+    role: 'ADMIN' | 'MANAGER' | 'FINANCE' | 'DIREKTUR';
 }
 
 export interface Vendor {
@@ -14,7 +14,9 @@ export interface Vendor {
     email: string;
 }
 
-export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
+export type PageProps<
+    T extends Record<string, unknown> = Record<string, unknown>,
+> = T & {
     auth: {
         user: User;
     };

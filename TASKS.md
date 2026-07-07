@@ -18,25 +18,25 @@ Eksekusi **berurutan dari atas ke bawah**, jangan loncat. Tiap phase sekarang su
 
 ## Phase 1 — Database & Model Foundation
 
-- [ ] Migration: `vendors` (name, contact_person, phone, email)
-- [ ] Migration: tambah kolom `role` ke tabel `users` (enum: ADMIN, MANAGER, FINANCE, DIREKTUR)
-- [ ] Migration: `contracts` (vendor_id, created_by, title, value, start_date, end_date, status)
-- [ ] Migration: `contract_versions` (contract_id, file_path, version_number, uploaded_by)
-- [ ] Migration: `approval_histories` (contract_id, approver_id, stage, decision, note)
-- [ ] Migration: `compliance_requirements` (vendor_id, document_name, is_fulfilled, file_path, expiry_date)
-- [ ] Model + relationship Eloquent semua tabel di atas (cek `ARCHITECTURE.md` buat penamaan)
-- [ ] Enum class: `ContractStatus`, `ApprovalStage`, `UserRole`
-- [ ] Seeder: dummy data vendor, user per role, beberapa contract contoh
-- [ ] **Checkpoint:** jalankan `php artisan migrate:fresh --seed`, cek data masuk benar via Tinker
+- [x] Migration: `vendors` (name, contact_person, phone, email)
+- [x] Migration: tambah kolom `role` ke tabel `users` (enum: ADMIN, MANAGER, FINANCE, DIREKTUR)
+- [x] Migration: `contracts` (vendor_id, created_by, title, value, start_date, end_date, status)
+- [x] Migration: `contract_versions` (contract_id, file_path, version_number, uploaded_by)
+- [x] Migration: `approval_histories` (contract_id, approver_id, stage, decision, note)
+- [x] Migration: `compliance_requirements` (vendor_id, document_name, is_fulfilled, file_path, expiry_date)
+- [x] Model + relationship Eloquent semua tabel di atas (cek `ARCHITECTURE.md` buat penamaan)
+- [x] Enum class: `ContractStatus`, `ApprovalStage`, `UserRole`
+- [x] Seeder: dummy data vendor, user per role, beberapa contract contoh
+- [x] **Checkpoint:** jalankan `php artisan migrate:fresh --seed`, cek data masuk benar via Tinker
 
 ## Phase 2 — Auth & Role Middleware
 
-- [ ] Setup login/register pakai Sanctum (session-based, bukan token, karena SPA-like via Inertia)
-- [ ] Middleware/Gate: cek role user untuk akses tiap halaman dashboard
-- [ ] Policy: `ContractPolicy` (siapa bisa create, view, approve sesuai role & stage)
-- [ ] **Frontend:** halaman `Login.tsx` (form email/password, type-safe pakai Inertia `useForm`)
-- [ ] **Frontend:** conditional rendering menu sidebar sesuai `role` user yang login (misal: menu approval cuma muncul buat Manager/Finance/Direktur)
-- [ ] **Checkpoint:** login sebagai 4 role berbeda, pastikan akses halaman & tampilan menu sesuai role masing-masing
+- [x] Setup login/register pakai Sanctum (session-based, bukan token, karena SPA-like via Inertia)
+- [x] Middleware/Gate: cek role user untuk akses tiap halaman dashboard
+- [x] Policy: `ContractPolicy` (siapa bisa create, view, approve sesuai role & stage)
+- [x] **Frontend:** halaman `Login.tsx` (form email/password, type-safe pakai Inertia `useForm`)
+- [x] **Frontend:** conditional rendering menu sidebar sesuai `role` user yang login (misal: menu approval cuma muncul buat Manager/Finance/Direktur)
+- [x] **Checkpoint:** login sebagai 4 role berbeda, pastikan akses halaman & tampilan menu sesuai role masing-masing
 
 ## Phase 3 — Contract CRUD (Backend + Frontend)
 
