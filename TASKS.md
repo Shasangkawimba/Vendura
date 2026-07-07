@@ -40,16 +40,16 @@ Eksekusi **berurutan dari atas ke bawah**, jangan loncat. Tiap phase sekarang su
 
 ## Phase 3 — Contract CRUD (Backend + Frontend)
 
-- [ ] `StoreContractRequest` — validasi title, value, start_date < end_date, vendor_id exists
-- [ ] `ContractController@store` — simpan kontrak status default `DRAFT`
-- [ ] `ContractController@index` — list kontrak (filter by role: creator lihat punya sendiri, approver lihat yang perlu direview)
-- [ ] `ContractController@show` — detail kontrak + relasi vendor, versions, approval history
-- [ ] Upload dokumen kontrak awal → otomatis masuk `contract_versions` versi 1
-- [ ] Update `types/index.d.ts` — tambah interface `Contract`, `Vendor` (mirror Form Request)
-- [ ] **Frontend:** `Contracts/Index.tsx` — list kontrak pakai `ContractCard.tsx`, tampilkan `ContractStatusBadge.tsx`
-- [ ] **Frontend:** `Contracts/Create.tsx` — form buat kontrak baru (Inertia `useForm`, validasi error dari backend ditampilkan)
-- [ ] **Frontend:** `Contracts/Show.tsx` — detail kontrak, termasuk info vendor & dokumen versi terbaru
-- [ ] **Checkpoint:** manual test create-view kontrak lewat UI (bukan cuma Postman/Tinker), cek data tersimpan benar, dokumen ke-upload ke storage
+- [x] `StoreContractRequest` — validasi title, value, start_date < end_date, vendor_id exists
+- [x] `ContractController@store` — simpan kontrak status default `DRAFT`
+- [x] `ContractController@index` — list kontrak (filter by role: creator lihat punya sendiri, approver lihat yang perlu direview)
+- [x] `ContractController@show` — detail kontrak + relasi vendor, versions, approval history
+- [x] Upload dokumen kontrak awal → otomatis masuk `contract_versions` versi 1
+- [x] Update `types/index.d.ts` — tambah interface `Contract`, `Vendor` (mirror Form Request)
+- [x] **Frontend:** `Contracts/Index.tsx` — list kontrak pakai `ContractCard.tsx`, tampilkan `ContractStatusBadge.tsx`
+- [x] **Frontend:** `Contracts/Create.tsx` — form buat kontrak baru (Inertia `useForm`, validasi error dari backend ditampilkan)
+- [x] **Frontend:** `Contracts/Show.tsx` — detail kontrak, termasuk info vendor & dokumen versi terbaru
+- [x] **Checkpoint:** manual test create-view kontrak lewat UI (bukan cuma Postman/Tinker), cek data tersimpan benar, dokumen ke-upload ke storage
 
 ## Phase 4 — Approval Workflow Engine 
 

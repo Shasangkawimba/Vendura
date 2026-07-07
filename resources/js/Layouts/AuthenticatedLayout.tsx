@@ -20,7 +20,7 @@ export default function Authenticated({ user, header, children }: { user: User, 
                     </Link>
                     
                     <Link
-                        href="#"
+                        href="/contracts"
                         className="flex items-center px-3 py-2 text-sm font-medium rounded-sm text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
                     >
                         Contracts
