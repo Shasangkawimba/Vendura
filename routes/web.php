@@ -21,4 +21,8 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 
     Route::resource('contracts', App\Http\Controllers\ContractController::class)->only(['index', 'create', 'store', 'show']);
+    
+    Route::post('/contracts/{contract}/submit', [App\Http\Controllers\ApprovalController::class, 'submit'])->name('contracts.submit');
+    Route::post('/contracts/{contract}/approve', [App\Http\Controllers\ApprovalController::class, 'approve'])->name('contracts.approve');
+    Route::post('/contracts/{contract}/reject', [App\Http\Controllers\ApprovalController::class, 'reject'])->name('contracts.reject');
 });

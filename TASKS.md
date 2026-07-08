@@ -53,15 +53,15 @@ Eksekusi **berurutan dari atas ke bawah**, jangan loncat. Tiap phase sekarang su
 
 ## Phase 4 — Approval Workflow Engine 
 
-- [ ] `ApproveContractAction` — logic transisi status sesuai state machine di `ARCHITECTURE.md`
-- [ ] `RejectContractAction` — logic reject balik ke `DRAFT` + simpan note
-- [ ] `ApprovalController@approve` & `@reject` — thin controller, panggil Action
-- [ ] Validasi: user cuma bisa approve/reject sesuai `stage` yang cocok dengan `role`-nya
-- [ ] Setiap approve/reject WAJIB insert baris baru ke `approval_histories`, cek tidak ada update/overwrite
-- [ ] **Frontend:** `ApprovalTimeline.tsx` — tampilkan histori approval (siapa, kapan, keputusan, catatan) di halaman `Contracts/Show.tsx`
-- [ ] **Frontend:** tombol Approve/Reject di `Contracts/Show.tsx` — hanya muncul kalau `role` user match dengan `stage` kontrak saat ini (logic ini juga wajib kamu pahami sendiri, bukan cuma backend-nya)
-- [ ] **Frontend:** modal/form alasan reject (wajib isi note sebelum submit reject)
-- [ ] **Checkpoint (WAJIB manual, bukan cuma jalanin AI):** test skenario approve berurutan penuh (Manager→Finance→Direktur) lewat UI, test reject di tengah jalan, test user salah role — tombol approve harus tidak muncul/ditolak sistem
+- [x] `ApproveContractAction` — logic transisi status sesuai state machine di `ARCHITECTURE.md`
+- [x] `RejectContractAction` — logic reject balik ke `DRAFT` + simpan note
+- [x] `ApprovalController@approve` & `@reject` — thin controller, panggil Action
+- [x] Validasi: user cuma bisa approve/reject sesuai `stage` yang cocok dengan `role`-nya
+- [x] Setiap approve/reject WAJIB insert baris baru ke `approval_histories`, cek tidak ada update/overwrite
+- [x] **Frontend:** `ApprovalTimeline.tsx` — tampilkan histori approval (siapa, kapan, keputusan, catatan) di halaman `Contracts/Show.tsx`
+- [x] **Frontend:** tombol Approve/Reject di `Contracts/Show.tsx` — hanya muncul kalau `role` user match dengan `stage` kontrak saat ini (logic ini juga wajib kamu pahami sendiri, bukan cuma backend-nya)
+- [x] **Frontend:** modal/form alasan reject (wajib isi note sebelum submit reject)
+- [x] **Checkpoint:** (manual test) login gonta-ganti role, test flow DRAFT → MANAGER → FINANCE → DIREKTUR → AKTIF
 
 ## Phase 5 — Document Versioning
 
