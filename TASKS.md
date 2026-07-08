@@ -90,12 +90,12 @@ Eksekusi **berurutan dari atas ke bawah**, jangan loncat. Tiap phase sekarang su
 
 ## Phase 8 — Dashboard & Caching (Backend + Frontend)
 
-- [ ] Query aggregat: total kontrak aktif, kontrak mendekati expired, compliance rate per vendor
-- [ ] Cache hasil aggregat ke Redis (key sesuai `AGENTS.md`: `dashboard:contracts:summary`, dst)
-- [ ] Invalidasi cache saat status kontrak/compliance berubah
-- [ ] **Frontend:** `Dashboard/Index.tsx` — tampilkan summary cards (total aktif, mendekati expired, compliance rate)
-- [ ] **Frontend:** grafik sederhana (misal pakai Recharts) — tren kontrak aktif per bulan, atau compliance rate per vendor
-- [ ] **Checkpoint:** cek dashboard nge-load dari cache (bukan query ulang tiap refresh) lewat UI, cache ke-invalidate saat ada perubahan data
+- [x] Query aggregat: total kontrak aktif, kontrak mendekati expired, compliance rate per vendor
+- [x] Cache hasil aggregat ke Redis (key sesuai `AGENTS.md`: `dashboard:contracts:summary`, dst)
+- [x] Invalidasi cache saat status kontrak/compliance berubah
+- [x] **Frontend:** `Dashboard/Index.tsx` — tampilkan summary cards (total aktif, mendekati expired, compliance rate)
+- [x] **Frontend:** grafik sederhana (misal pakai Recharts) — tren kontrak aktif per bulan, atau compliance rate per vendor
+- [x] **Checkpoint:** cek dashboard nge-load dari cache (bukan query ulang tiap refresh) lewat UI, cache ke-invalidate saat ada perubahan data
 
 ## Phase 9 — Testing
 
