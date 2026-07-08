@@ -26,6 +26,12 @@ class ContractPolicy
         return $user->role === UserRole::MANAGER;
     }
 
+    public function update(User $user, Contract $contract): bool
+    {
+        // Only the creator can upload a new version, and only when the contract is in DRAFT status
+        return $user->id === $contract->created_by && $contract->status->value === 'DRAFT';
+    }
+
     public function approve(User $user, Contract $contract): bool
     {
         $pendingStage = match ($contract->status->value) {

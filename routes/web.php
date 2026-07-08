@@ -25,4 +25,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/contracts/{contract}/submit', [App\Http\Controllers\ApprovalController::class, 'submit'])->name('contracts.submit');
     Route::post('/contracts/{contract}/approve', [App\Http\Controllers\ApprovalController::class, 'approve'])->name('contracts.approve');
     Route::post('/contracts/{contract}/reject', [App\Http\Controllers\ApprovalController::class, 'reject'])->name('contracts.reject');
+    Route::post('/contracts/{contract}/versions', [App\Http\Controllers\ContractVersionController::class, 'store'])->name('contracts.versions.store');
 });

@@ -50,6 +50,17 @@ export default function Show({ auth, contract }: PageProps<{ contract: Contract 
         });
     };
 
+    const { data: versionData, setData: setVersionData, post: postVersion, processing: versionProcessing, reset: resetVersion, errors: versionErrors } = useForm({
+        document: null as File | null,
+    });
+
+    const handleUploadVersion = (e: React.FormEvent) => {
+        e.preventDefault();
+        postVersion(`/contracts/${contract.id}/versions`, {
+            onSuccess: () => resetVersion('document'),
+        });
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -114,23 +125,52 @@ export default function Show({ auth, contract }: PageProps<{ contract: Contract 
 
                     <div className="bg-white dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700 p-6">
                         <h3 className="text-lg font-medium mb-4">Contract Documents</h3>
-                        {latestVersion ? (
-                            <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-sm">
-                                <div>
-                                    <p className="font-medium text-sm">Version {latestVersion.version_number}</p>
-                                    <p className="text-xs text-gray-500 mt-1">Uploaded by {latestVersion.uploader?.name} on {new Date(latestVersion.created_at).toLocaleDateString()}</p>
-                                </div>
-                                <a 
-                                    href={`/storage/${latestVersion.file_path}`} 
-                                    target="_blank" 
-                                    rel="noreferrer"
-                                    className="text-sm text-indigo-600 font-medium hover:underline"
-                                >
-                                    Download
-                                </a>
+                        {contract.versions && contract.versions.length > 0 ? (
+                            <div className="space-y-3">
+                                {contract.versions.slice().reverse().map(version => (
+                                    <div key={version.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-sm border border-gray-100 dark:border-gray-700">
+                                        <div>
+                                            <p className="font-medium text-sm">Version {version.version_number}</p>
+                                            <p className="text-xs text-gray-500 mt-1">Uploaded by {version.uploader?.name} on {new Date(version.created_at).toLocaleDateString()}</p>
+                                        </div>
+                                        <a 
+                                            href={`/storage/${version.file_path}`} 
+                                            target="_blank" 
+                                            rel="noreferrer"
+                                            className="text-sm text-indigo-600 font-medium hover:underline"
+                                        >
+                                            Download
+                                        </a>
+                                    </div>
+                                ))}
                             </div>
                         ) : (
                             <p className="text-sm text-gray-500">No documents uploaded.</p>
+                        )}
+
+                        {contract.status === 'DRAFT' && contract.created_by === auth.user.id && (
+                            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                                <h4 className="text-sm font-medium mb-3">Upload Revised Document</h4>
+                                <form onSubmit={handleUploadVersion} className="flex items-start space-x-4">
+                                    <div className="flex-grow">
+                                        <input
+                                            type="file"
+                                            onChange={(e) => setVersionData('document', e.target.files ? e.target.files[0] : null)}
+                                            className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-sm file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
+                                            accept=".pdf,.doc,.docx,.jpg,.png"
+                                            required
+                                        />
+                                        {versionErrors.document && <div className="text-red-500 text-xs mt-1">{versionErrors.document}</div>}
+                                    </div>
+                                    <button 
+                                        type="submit" 
+                                        disabled={versionProcessing || !versionData.document}
+                                        className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 text-sm font-medium rounded-sm disabled:opacity-50 transition-colors whitespace-nowrap"
+                                    >
+                                        Upload
+                                    </button>
+                                </form>
+                            </div>
                         )}
                     </div>
                 </div>

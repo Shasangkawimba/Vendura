@@ -65,11 +65,11 @@ Eksekusi **berurutan dari atas ke bawah**, jangan loncat. Tiap phase sekarang su
 
 ## Phase 5 — Document Versioning
 
-- [ ] `UploadContractVersionAction` — upload dokumen baru, auto-increment `version_number`
-- [ ] Endpoint untuk lihat daftar versi dokumen per kontrak
-- [ ] **Frontend:** komponen daftar versi dokumen di `Contracts/Show.tsx` (nama file, versi ke berapa, tanggal upload, link download)
-- [ ] **Frontend:** form upload versi baru (validasi tipe file di frontend sebelum submit, tapi tetap validasi ulang di backend)
-- [ ] **Checkpoint:** upload 2-3 versi dokumen di 1 kontrak lewat UI, pastikan versi lama tidak ketimpa/hilang dan tetap bisa didownload
+- [x] `UploadContractVersionAction` — upload dokumen baru, auto-increment `version_number`
+- [x] Endpoint untuk lihat daftar versi dokumen per kontrak
+- [x] **Frontend:** komponen daftar versi dokumen di `Contracts/Show.tsx` (nama file, versi ke berapa, tanggal upload, link download)
+- [x] **Frontend:** form upload versi baru (validasi tipe file di frontend sebelum submit, tapi tetap validasi ulang di backend)
+- [x] **Checkpoint:** upload 2-3 versi dokumen di 1 kontrak lewat UI, pastikan versi lama tidak ketimpa/hilang dan tetap bisa didownload
 
 ## Phase 6 — Compliance Management (Backend + Frontend)
 
