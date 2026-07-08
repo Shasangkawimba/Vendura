@@ -26,4 +26,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/contracts/{contract}/approve', [App\Http\Controllers\ApprovalController::class, 'approve'])->name('contracts.approve');
     Route::post('/contracts/{contract}/reject', [App\Http\Controllers\ApprovalController::class, 'reject'])->name('contracts.reject');
     Route::post('/contracts/{contract}/versions', [App\Http\Controllers\ContractVersionController::class, 'store'])->name('contracts.versions.store');
+
+    Route::resource('vendors', App\Http\Controllers\VendorController::class)->only(['index', 'show']);
+    Route::post('/vendors/{vendor}/compliance', [App\Http\Controllers\ComplianceRequirementController::class, 'store'])->name('vendors.compliance.store');
+    Route::post('/compliance/{requirement}/upload', [App\Http\Controllers\ComplianceRequirementController::class, 'upload'])->name('compliance.upload');
 });

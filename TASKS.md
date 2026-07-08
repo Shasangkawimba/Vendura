@@ -73,11 +73,12 @@ Eksekusi **berurutan dari atas ke bawah**, jangan loncat. Tiap phase sekarang su
 
 ## Phase 6 — Compliance Management (Backend + Frontend)
 
-- [ ] `ComplianceController` — CRUD requirement per vendor
-- [ ] Upload dokumen compliance, auto-update `is_fulfilled` berdasarkan ada/tidaknya file
-- [ ] **Frontend:** `Compliance/Index.tsx` — daftar vendor + ringkasan status kelengkapan
-- [ ] **Frontend:** `ComplianceChecklist.tsx` — checklist per vendor (nama dokumen, status, tanggal expired, tombol upload)
-- [ ] **Checkpoint:** tandai requirement lengkap/belum lewat UI, cek status berubah sesuai upload dokumen
+- [x] `ComplianceController` — CRUD requirement per vendor
+- [x] `UploadComplianceDocumentAction` — logic upload file + set `is_fulfilled = true`
+- [x] Validasi: tipe file PDF/gambar, max 5MB, `expiry_date` wajib diisi saat upload
+- [x] **Frontend:** komponen daftar persyaratan per vendor (status terpenuhi/belum, tgl kedaluwarsa) di `Vendors/Show.tsx` (bikin halaman ini)
+- [x] **Frontend:** form upload dokumen kepatuhan jika belum terpenuhi/sudah kedaluwarsa
+- [x] **Checkpoint:** test upload NPWP/TDP vendor, cek status `is_fulfilled` berubah jadi hijau di UI, tombol upload
 
 ## Phase 7 — Reminder & Scheduled Job
 
