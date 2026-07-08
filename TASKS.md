@@ -82,12 +82,11 @@ Eksekusi **berurutan dari atas ke bawah**, jangan loncat. Tiap phase sekarang su
 
 ## Phase 7 — Reminder & Scheduled Job
 
-- [ ] `CheckExpiringContractsAction` — scan kontrak dengan `end_date` mendekati (H-30/H-7/H-1)
-- [ ] `SendContractExpiryReminder` Job — dispatch via Queue, kirim notifikasi
-- [ ] Schedule job harian di scheduler
-- [ ] Logic cegah reminder duplikat (cek sudah dikirim di threshold yang sama)
-- [ ] Job: auto-update status `AKTIF → EXPIRED` saat `end_date` lewat
-- [ ] **Checkpoint:** jalankan job manual (`php artisan schedule:run` / test langsung), cek notifikasi terkirim sekali per threshold
+- [x] `SendContractExpiryRemindersJob` — scan kontrak yang `AKTIF` dan `end_date` mendekati H-30, H-7, H-1.
+- [x] Logic idempotency: catat di Redis/tabel tambahan agar tidak kirim email/notif yang sama 2x di threshold yang sama.
+- [x] Setup Laravel Scheduler di `routes/console.php` (jalan harian).
+- [x] Job untuk auto-update status jadi `EXPIRED` kalau `end_date < today`.
+- [x] **Checkpoint:** testing jalanin command scheduler manual, cek output/log apakah job berhasil kirim email/merubah status.
 
 ## Phase 8 — Dashboard & Caching (Backend + Frontend)
 
