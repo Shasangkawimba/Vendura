@@ -99,10 +99,10 @@ Eksekusi **berurutan dari atas ke bawah**, jangan loncat. Tiap phase sekarang su
 
 ## Phase 9 — Testing
 
-- [ ] Unit test: `ApproveContractAction`, `RejectContractAction` (paling prioritas)
-- [ ] Feature test: alur submit → approve penuh → status jadi AKTIF
-- [ ] Feature test: role yang salah coba approve → harus ditolak (403)
-- [ ] Feature test: reminder job tidak kirim duplikat
+- [x] Unit test: `ApproveContractAction`, `RejectContractAction` (paling prioritas)
+- [x] Feature test: alur submit → approve penuh → status jadi AKTIF
+- [x] Feature test: role yang salah coba approve → harus ditolak (403)
+- [x] Feature test: reminder job tidak kirim duplikat
 
 ## Phase 10 — Deployment
 

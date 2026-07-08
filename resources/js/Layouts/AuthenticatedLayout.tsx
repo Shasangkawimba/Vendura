@@ -26,21 +26,11 @@ export default function Authenticated({ user, header, children }: { user: User, 
                         Contracts
                     </Link>
 
-                    {/* Conditional rendering based on role */}
-                    {['MANAGER', 'FINANCE', 'DIREKTUR'].includes(user.role) && (
-                        <Link
-                            href="#"
-                            className="flex items-center px-3 py-2 text-sm font-medium rounded-sm text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
-                        >
-                            Approvals
-                        </Link>
-                    )}
-
                     <Link
-                        href="#"
+                        href="/vendors"
                         className="flex items-center px-3 py-2 text-sm font-medium rounded-sm text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
                     >
-                        Compliance
+                        Vendors & Compliance
                     </Link>
                 </nav>
 

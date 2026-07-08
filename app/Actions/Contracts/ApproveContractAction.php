@@ -22,6 +22,10 @@ class ApproveContractAction
                 default => throw ValidationException::withMessages(['contract' => 'Contract is not pending approval.']),
             };
 
+            if ($user->role !== $stage->value) {
+                throw ValidationException::withMessages(['role' => 'Unauthorized role for this approval stage.']);
+            }
+
             ApprovalHistory::create([
                 'contract_id' => $contract->id,
                 'approver_id' => $user->id,
