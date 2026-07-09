@@ -1,0 +1,81 @@
+- generic [ref=f9e3]:
+  - complementary [ref=f9e4]:
+    - link "V Vendura" [ref=f9e6] [cursor=pointer]:
+      - /url: /dashboard
+      - generic [ref=f9e8]: V
+      - generic [ref=f9e9]: Vendura
+    - navigation [ref=f9e10]:
+      - link "Dashboard" [ref=f9e11] [cursor=pointer]:
+        - /url: /dashboard
+        - img [ref=f9e13]
+        - text: Dashboard
+      - link "Contracts" [ref=f9e15] [cursor=pointer]:
+        - /url: /contracts
+        - img [ref=f9e17]
+        - text: Contracts
+      - link "Vendors & Compliance" [ref=f9e19] [cursor=pointer]:
+        - /url: /vendors
+        - img [ref=f9e21]
+        - text: Vendors & Compliance
+    - generic [ref=f9e23]:
+      - generic [ref=f9e24]:
+        - generic [ref=f9e26]: M
+        - generic [ref=f9e27]:
+          - generic [ref=f9e28]: Manager Procurement
+          - generic [ref=f9e29]: MANAGER
+      - button "Sign out" [ref=f9e30]
+  - main [ref=f9e31]:
+    - generic [ref=f9e35]:
+      - link [ref=f9e36] [cursor=pointer]:
+        - /url: /contracts
+        - img [ref=f9e37]
+      - heading "Surat Perjanjian Pengadaan Alat Tulis Kantor (ATK)" [level=2] [ref=f9e39]
+      - generic [ref=f9e40]: Active
+    - generic [ref=f9e43]:
+      - generic [ref=f9e44]:
+        - generic [ref=f9e45]:
+          - generic [ref=f9e46]:
+            - generic [ref=f9e47]:
+              - heading "Vendor" [level=3] [ref=f9e48]
+              - generic [ref=f9e49]:
+                - paragraph [ref=f9e50]: PT Maju Bersama
+                - paragraph [ref=f9e51]: Budi Santoso
+                - paragraph [ref=f9e52]: contact@ptmaju.com
+                - paragraph [ref=f9e53]: "081234567890"
+            - generic [ref=f9e54]:
+              - heading "Terms" [level=3] [ref=f9e55]
+              - generic [ref=f9e56]:
+                - generic [ref=f9e57]:
+                  - generic [ref=f9e58]: Value
+                  - generic [ref=f9e59]: Rp 1.000.000
+                - generic [ref=f9e60]:
+                  - generic [ref=f9e61]: Start
+                  - generic [ref=f9e62]: 2026-07-08
+                - generic [ref=f9e63]:
+                  - generic [ref=f9e64]: End
+                  - generic [ref=f9e65]: 2026-08-08
+          - generic [ref=f9e66]: Created by Manager Procurement|7/8/2026
+        - generic [ref=f9e67]:
+          - heading "Documents" [level=3] [ref=f9e68]
+          - generic [ref=f9e69]:
+            - generic [ref=f9e70]:
+              - generic [ref=f9e71]:
+                - img [ref=f9e73]
+                - generic [ref=f9e75]:
+                  - paragraph [ref=f9e76]: Version 2
+                  - paragraph [ref=f9e77]: Manager Procurement|7/8/2026
+              - link "Download" [ref=f9e78] [cursor=pointer]:
+                - /url: /storage/contracts/qQ3ZYbQMmVCdNtyjP1OOxlahPMkzhkrH0KIMP1HF.pdf
+            - generic [ref=f9e79]:
+              - generic [ref=f9e80]:
+                - img [ref=f9e82]
+                - generic [ref=f9e84]:
+                  - paragraph [ref=f9e85]: Version 1
+                  - paragraph [ref=f9e86]: Manager Procurement|7/8/2026
+              - link "Download" [ref=f9e87] [cursor=pointer]:
+                - /url: /storage/contracts/TICREZmZgMYLq74Tjwyxso55FJbp3vR7l6pXNL57.pdf
+      - generic [ref=f9e89]:
+        - heading "Approval History" [level=3] [ref=f9e90]
+        - generic [ref=f9e91]:
+          - img [ref=f9e93]
+          - paragraph [ref=f9e95]: No approval history yet.

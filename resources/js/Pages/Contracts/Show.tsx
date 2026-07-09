@@ -1,21 +1,16 @@
 import { Head, Link, useForm, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { PageProps, Contract } from '@/types';
-import ContractStatusBadge from '@/Components/ContractStatusBadge';
-import ApprovalTimeline from '@/Components/ApprovalTimeline';
 import { useState } from 'react';
 
 export default function Show({ auth, contract }: PageProps<{ contract: Contract }>) {
-    const latestVersion = contract.versions && contract.versions.length > 0 
-        ? contract.versions[contract.versions.length - 1] 
+    const latestVersion = contract.versions && contract.versions.length > 0
+        ? contract.versions[contract.versions.length - 1]
         : null;
 
     const { data, setData, post: postForm, processing, reset, errors } = useForm({
         note: '',
     });
-
-    const [showRejectModal, setShowRejectModal] = useState(false);
-    const [showApproveModal, setShowApproveModal] = useState(false);
 
     const pendingStage = contract.status === 'MENUNGGU_MANAGER' ? 'MANAGER' :
                          contract.status === 'MENUNGGU_FINANCE' ? 'FINANCE' :
@@ -34,7 +29,6 @@ export default function Show({ auth, contract }: PageProps<{ contract: Contract 
         e.preventDefault();
         postForm(`/contracts/${contract.id}/approve`, {
             onSuccess: () => {
-                setShowApproveModal(false);
                 reset('note');
             },
         });
@@ -44,7 +38,6 @@ export default function Show({ auth, contract }: PageProps<{ contract: Contract 
         e.preventDefault();
         postForm(`/contracts/${contract.id}/reject`, {
             onSuccess: () => {
-                setShowRejectModal(false);
                 reset('note');
             },
         });
@@ -61,202 +54,322 @@ export default function Show({ auth, contract }: PageProps<{ contract: Contract 
         });
     };
 
+    const getStatusStyle = (status: string) => {
+        switch (status) {
+            case 'AKTIF':
+                return 'bg-[var(--color-status-active)]/10 text-[var(--color-status-active)] border-[var(--color-status-active)]/20';
+            case 'DITOLAK':
+            case 'EXPIRED':
+                return 'bg-[var(--color-error-container)] text-[var(--color-on-error-container)] border-[var(--color-error-container)]';
+            case 'DRAFT':
+                return 'bg-[var(--color-surface-container-high)] text-[var(--color-secondary)] border-[var(--color-surface-border)]';
+            default: // Pending
+                return 'bg-[var(--color-status-pending)]/10 text-[var(--color-status-pending)] border-[var(--color-status-pending)]/20';
+        }
+    };
+
+    const getStatusLabel = (status: string) => {
+        if (status.startsWith('MENUNGGU_')) return 'Pending Approval';
+        return status;
+    };
+
+    const stages = ['MANAGER', 'FINANCE', 'DIREKTUR'];
+
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={
-                <div className="flex justify-between items-center">
-                    <div className="flex items-center space-x-4">
-                        <Link href="/contracts" className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
-                            &larr; Back
-                        </Link>
-                        <h2 className="font-semibold text-xl leading-tight">Contract Details</h2>
-                    </div>
-                    {canSubmit && (
-                        <button onClick={submitContract} className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 text-sm font-medium rounded-sm">
-                            Submit for Approval
-                        </button>
-                    )}
-                </div>
-            }
+            header={null} // Header rendered inside for full width control
         >
             <Head title={contract.title} />
 
-            <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2 space-y-6">
-                    <div className="bg-white dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700 p-6">
-                        <div className="flex justify-between items-start mb-6 border-b border-gray-100 dark:border-gray-700 pb-4">
-                            <div>
-                                <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{contract.title}</h1>
-                                <p className="text-sm text-gray-500">Created by {contract.creator?.name}</p>
-                            </div>
-                            <ContractStatusBadge status={contract.status} />
-                        </div>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+                <div>
+                    <div className="flex items-center gap-3 mb-2">
+                        <span className={`px-2.5 py-0.5 rounded-full text-[12px] font-semibold border ${getStatusStyle(contract.status)}`}>
+                            {getStatusLabel(contract.status)}
+                        </span>
+                        <span className="font-mono text-[13px] text-[var(--color-secondary)]">ID: C-{contract.id.toString().padStart(4, '0')}</span>
+                    </div>
+                    <h2 className="text-[24px] sm:text-[30px] font-bold text-[var(--color-on-surface)] tracking-tight leading-none">{contract.title}</h2>
+                    <p className="text-[14px] sm:text-[16px] text-[var(--color-secondary)] mt-2">Vendor: {contract.vendor?.name} • Initiated by: {contract.creator?.name}</p>
+                </div>
+                {canSubmit && (
+                    <button
+                        onClick={submitContract}
+                        className="w-full sm:w-auto bg-[var(--color-primary)] hover:bg-[var(--color-primary-container)] text-[var(--color-on-primary)] px-5 py-2.5 text-[14px] font-semibold rounded-lg transition-colors shadow-sm"
+                    >
+                        Submit for Approval
+                    </button>
+                )}
+            </div>
 
-                        <div className="grid grid-cols-2 gap-6 mb-6">
-                            <div>
-                                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Vendor Information</h3>
-                                <div className="text-sm">
-                                    <p className="font-medium text-gray-900 dark:text-white">{contract.vendor?.name}</p>
-                                    <p className="text-gray-600 dark:text-gray-400 mt-1">{contract.vendor?.contact_person}</p>
-                                    <p className="text-gray-600 dark:text-gray-400">{contract.vendor?.email}</p>
-                                    <p className="text-gray-600 dark:text-gray-400">{contract.vendor?.phone}</p>
-                                </div>
+            {/* Bento Grid Layout */}
+            <div className="grid grid-cols-12 gap-6">
+                
+                {/* Left Column: Document Preview & Details (8 columns) */}
+                <div className="col-span-12 xl:col-span-8 space-y-6">
+                    
+                    {/* Document Preview Card */}
+                    <div className="bg-[var(--color-surface-container-lowest)] rounded-xl border border-[var(--color-surface-border)] shadow-[var(--shadow-enterprise)] overflow-hidden flex flex-col h-[600px]">
+                        <div className="p-4 border-b border-[var(--color-surface-border)] flex justify-between items-center bg-[var(--color-surface-bright)]">
+                            <div className="flex items-center gap-3">
+                                <span className="material-symbols-outlined text-[var(--color-secondary)]">picture_as_pdf</span>
+                                <h3 className="text-[14px] font-semibold text-[var(--color-on-surface)]">
+                                    {latestVersion ? `Version ${latestVersion.version_number}` : 'No Document'}
+                                </h3>
                             </div>
-                            <div>
-                                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Contract Details</h3>
-                                <div className="text-sm space-y-2">
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-500">Value:</span>
-                                        <span className="font-medium">Rp {parseInt(contract.value).toLocaleString('id-ID')}</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-500">Start Date:</span>
-                                        <span className="font-medium">{contract.start_date}</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-500">End Date:</span>
-                                        <span className="font-medium">{contract.end_date}</span>
-                                    </div>
+                            {latestVersion && (
+                                <div className="flex gap-2">
+                                    <a
+                                        href={`/storage/${latestVersion.file_path}`}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="p-1.5 text-[var(--color-secondary)] hover:text-[var(--color-primary)] rounded hover:bg-[var(--color-surface-container)] transition-colors ml-2"
+                                        title="Download"
+                                    >
+                                        <span className="material-symbols-outlined text-[20px]">download</span>
+                                    </a>
                                 </div>
-                            </div>
+                            )}
+                        </div>
+                        <div className="flex-1 bg-[var(--color-surface-container)] flex items-center justify-center p-8 overflow-y-auto relative">
+                            {latestVersion ? (
+                                (() => {
+                                    const path = `/storage/${latestVersion.file_path}`;
+                                    const isPdf = /\.pdf$/i.test(path);
+                                    const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(path);
+
+                                    if (isPdf) {
+                                        return (
+                                            <iframe 
+                                                src={path} 
+                                                className="w-full h-full min-h-[800px] rounded border border-[var(--color-surface-border)] shadow-sm bg-white" 
+                                                title="Document Preview"
+                                            />
+                                        );
+                                    } else if (isImage) {
+                                        return (
+                                            <div className="w-full h-full min-h-[800px] flex items-center justify-center bg-[var(--color-surface-container-lowest)] rounded border border-[var(--color-surface-border)] shadow-sm p-4">
+                                                <img 
+                                                    src={path} 
+                                                    alt="Document Preview" 
+                                                    className="max-w-full max-h-full object-contain"
+                                                />
+                                            </div>
+                                        );
+                                    } else {
+                                        return (
+                                            <div className="text-center space-y-3">
+                                                <span className="material-symbols-outlined text-[48px] text-[var(--color-surface-border)]">insert_drive_file</span>
+                                                <p className="text-[14px] text-[var(--color-secondary)]">Preview not available for this file type.</p>
+                                                <a
+                                                    href={path}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    className="inline-block mt-2 bg-[var(--color-primary)] text-[var(--color-on-primary)] px-4 py-2 rounded-lg text-sm font-semibold"
+                                                >
+                                                    Download to View
+                                                </a>
+                                            </div>
+                                        );
+                                    }
+                                })()
+                            ) : (
+                                <div className="text-center space-y-3">
+                                    <span className="material-symbols-outlined text-[48px] text-[var(--color-surface-border)]">description</span>
+                                    <p className="text-[14px] text-[var(--color-secondary)]">No document uploaded.</p>
+                                </div>
+                            )}
                         </div>
                     </div>
 
-                    <div className="bg-white dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700 p-6">
-                        <h3 className="text-lg font-medium mb-4">Contract Documents</h3>
-                        {contract.versions && contract.versions.length > 0 ? (
-                            <div className="space-y-3">
-                                {contract.versions.slice().reverse().map(version => (
-                                    <div key={version.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-sm border border-gray-100 dark:border-gray-700">
-                                        <div>
-                                            <p className="font-medium text-sm">Version {version.version_number}</p>
-                                            <p className="text-xs text-gray-500 mt-1">Uploaded by {version.uploader?.name} on {new Date(version.created_at).toLocaleDateString()}</p>
-                                        </div>
-                                        <a 
-                                            href={`/storage/${version.file_path}`} 
-                                            target="_blank" 
-                                            rel="noreferrer"
-                                            className="text-sm text-indigo-600 font-medium hover:underline"
-                                        >
-                                            Download
-                                        </a>
-                                    </div>
-                                ))}
+                    {/* Contract Details Grid */}
+                    <div className="bg-[var(--color-surface-container-lowest)] rounded-xl border border-[var(--color-surface-border)] shadow-[var(--shadow-enterprise)] p-6">
+                        <h3 className="text-[20px] font-semibold mb-4 border-b border-[var(--color-surface-border)] pb-2 text-[var(--color-on-surface)]">Contract Meta Data</h3>
+                        <div className="grid grid-cols-2 gap-y-4 gap-x-8">
+                            <div>
+                                <span className="block text-[12px] font-semibold text-[var(--color-secondary)] mb-1">Contract Value</span>
+                                <span className="text-[14px] text-[var(--color-on-surface)]">Rp {parseInt(contract.value).toLocaleString('id-ID')}</span>
                             </div>
-                        ) : (
-                            <p className="text-sm text-gray-500">No documents uploaded.</p>
-                        )}
-
-                        {contract.status === 'DRAFT' && contract.created_by === auth.user.id && (
-                            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                                <h4 className="text-sm font-medium mb-3">Upload Revised Document</h4>
-                                <form onSubmit={handleUploadVersion} className="flex items-start space-x-4">
-                                    <div className="flex-grow">
-                                        <input
-                                            type="file"
-                                            onChange={(e) => setVersionData('document', e.target.files ? e.target.files[0] : null)}
-                                            className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-sm file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
-                                            accept=".pdf,.doc,.docx,.jpg,.png"
-                                            required
-                                        />
-                                        {versionErrors.document && <div className="text-red-500 text-xs mt-1">{versionErrors.document}</div>}
-                                    </div>
-                                    <button 
-                                        type="submit" 
-                                        disabled={versionProcessing || !versionData.document}
-                                        className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 text-sm font-medium rounded-sm disabled:opacity-50 transition-colors whitespace-nowrap"
-                                    >
-                                        Upload
-                                    </button>
-                                </form>
+                            <div>
+                                <span className="block text-[12px] font-semibold text-[var(--color-secondary)] mb-1">Effective Date</span>
+                                <span className="text-[14px] text-[var(--color-on-surface)]">{new Date(contract.start_date).toLocaleDateString()}</span>
                             </div>
-                        )}
+                            <div>
+                                <span className="block text-[12px] font-semibold text-[var(--color-secondary)] mb-1">Expiration Date</span>
+                                <span className="text-[14px] text-[var(--color-on-surface)]">{new Date(contract.end_date).toLocaleDateString()}</span>
+                            </div>
+                            <div>
+                                <span className="block text-[12px] font-semibold text-[var(--color-secondary)] mb-1">Vendor Contact</span>
+                                <span className="text-[14px] text-[var(--color-on-surface)]">{contract.vendor?.contact_person}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div className="space-y-6">
-                    {/* Action Panel for Approver */}
+                {/* Right Column: Workflow, Actions, History (4 columns) */}
+                <div className="col-span-12 xl:col-span-4 space-y-6">
+                    
+                    {/* Action / Review Card */}
                     {canApprove && (
-                        <div className="bg-white dark:bg-gray-800 rounded border border-indigo-200 dark:border-indigo-900 p-6 shadow-sm">
-                            <h3 className="text-lg font-medium mb-2 text-indigo-900 dark:text-indigo-100">Pending Your Action</h3>
-                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">This contract requires your approval as {auth.user.role}.</p>
-                            <div className="flex flex-col space-y-3">
-                                <button 
-                                    onClick={() => setShowApproveModal(true)}
-                                    className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-sm text-sm font-medium transition-colors"
-                                >
-                                    Approve Contract
-                                </button>
-                                <button 
-                                    onClick={() => setShowRejectModal(true)}
-                                    className="w-full bg-white dark:bg-gray-800 border border-red-300 dark:border-red-800 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 py-2 rounded-sm text-sm font-medium transition-colors"
-                                >
-                                    Reject Contract
-                                </button>
+                        <div className="bg-[var(--color-surface-container-lowest)] rounded-xl border-2 border-[var(--color-primary-fixed)] shadow-[var(--shadow-enterprise)] p-6 relative overflow-hidden">
+                            <div className="absolute top-0 left-0 w-full h-1 bg-[var(--color-primary)]"></div>
+                            <h3 className="text-[20px] font-semibold mb-4 text-[var(--color-on-surface)]">Your Action Required</h3>
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-[14px] font-semibold text-[var(--color-on-surface)] mb-2">Review Notes (Audit Trail)</label>
+                                    <textarea
+                                        value={data.note}
+                                        onChange={e => setData('note', e.target.value)}
+                                        className="w-full border border-[var(--color-surface-border)] rounded-md p-3 text-[14px] focus:ring-2 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--color-surface-bright)]"
+                                        placeholder="Enter compliance or financial notes..."
+                                        rows={3}
+                                    />
+                                </div>
+                                <div className="flex gap-3 pt-2">
+                                    <button
+                                        onClick={handleApprove}
+                                        disabled={processing}
+                                        className="flex-1 bg-[var(--color-primary)] text-[var(--color-on-primary)] text-[14px] font-semibold py-2.5 rounded border-b border-[var(--color-primary-container)] hover:bg-[var(--color-primary)]/90 transition-colors flex items-center justify-center gap-2"
+                                    >
+                                        <span className="material-symbols-outlined text-[18px]">check_circle</span>
+                                        Approve
+                                    </button>
+                                    <button
+                                        onClick={handleReject}
+                                        disabled={processing}
+                                        className="flex-1 bg-[var(--color-surface-container-lowest)] text-[var(--color-status-rejected)] text-[14px] font-semibold py-2.5 rounded border border-[var(--color-status-rejected)]/30 hover:bg-[var(--color-error-container)]/20 transition-colors flex items-center justify-center gap-2"
+                                    >
+                                        <span className="material-symbols-outlined text-[18px]">cancel</span>
+                                        Reject
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     )}
 
-                    <div className="bg-white dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700 p-6">
-                        <h3 className="text-lg font-medium mb-4">Approval History</h3>
-                        <ApprovalTimeline histories={contract.approvalHistories || []} />
+                    {/* Approval Workflow Timeline */}
+                    <div className="bg-[var(--color-surface-container-lowest)] rounded-xl border border-[var(--color-surface-border)] shadow-[var(--shadow-enterprise)] p-6">
+                        <h3 className="text-[20px] font-semibold mb-6 text-[var(--color-on-surface)]">Approval Workflow</h3>
+                        <div className="relative">
+                            {/* Vertical Line */}
+                            <div className="absolute left-[11px] top-2 bottom-2 w-0.5 bg-[var(--color-surface-border)]"></div>
+                            
+                            {stages.map((stage) => {
+                                const history = contract.approval_histories?.find(h => h.stage === stage);
+                                const isCurrent = pendingStage === stage;
+                                const isWaiting = !history && !isCurrent;
+                                const isApproved = history?.decision === 'APPROVED';
+                                const isRejected = history?.decision === 'REJECTED';
+                                
+                                return (
+                                    <div key={stage} className={`relative flex items-start gap-4 ${stage !== 'DIREKTUR' ? 'mb-6' : ''}`}>
+                                        
+                                        {/* Node Icon */}
+                                        <div className={`w-6 h-6 rounded-full flex items-center justify-center z-10 border-2 mt-0.5 ${
+                                            isApproved ? 'bg-[var(--color-status-active)] border-[var(--color-surface-container-lowest)]' :
+                                            isRejected ? 'bg-[var(--color-status-rejected)] border-[var(--color-surface-container-lowest)]' :
+                                            isCurrent ? 'bg-[var(--color-surface-container-lowest)] border-[var(--color-status-pending)]' :
+                                            'bg-[var(--color-surface-container-lowest)] border-[var(--color-surface-border)]'
+                                        }`}>
+                                            {isApproved && <span className="material-symbols-outlined text-[14px] text-[var(--color-on-primary)] font-bold">check</span>}
+                                            {isRejected && <span className="material-symbols-outlined text-[14px] text-[var(--color-on-primary)] font-bold">close</span>}
+                                            {isCurrent && <div className="w-2 h-2 rounded-full bg-[var(--color-status-pending)]"></div>}
+                                        </div>
+
+                                        {/* Node Content */}
+                                        {isCurrent ? (
+                                            <div className="flex-1 bg-[var(--color-surface-bright)] border border-[var(--color-status-pending)]/20 rounded p-3 -mt-2">
+                                                <div className="flex items-baseline justify-between w-full gap-4 mb-1">
+                                                    <span className="text-[14px] font-semibold text-[var(--color-on-surface)] capitalize">{stage.toLowerCase()} Review</span>
+                                                    <span className="px-2 py-0.5 bg-[var(--color-status-pending)]/10 text-[var(--color-status-pending)] text-[10px] uppercase font-bold rounded">Current</span>
+                                                </div>
+                                                <p className="text-[12px] text-[var(--color-secondary)]">Awaiting {stage.toLowerCase()} review.</p>
+                                            </div>
+                                        ) : (
+                                            <div className="flex-1 w-full">
+                                                <div className="flex items-baseline justify-between w-full gap-4">
+                                                    <span className={`text-[14px] font-semibold capitalize ${isWaiting ? 'text-[var(--color-secondary)]' : 'text-[var(--color-on-surface)]'}`}>
+                                                        {stage.toLowerCase()} {isWaiting ? 'Director' : 'Review'}
+                                                    </span>
+                                                    {history && <span className="font-mono text-[13px] text-[var(--color-secondary)] text-xs">{new Date(history.created_at).toLocaleDateString()}</span>}
+                                                </div>
+                                                <p className={`text-[12px] mt-1 ${isWaiting ? 'text-[var(--color-surface-border)]' : 'text-[var(--color-secondary)]'}`}>
+                                                    {history ? (
+                                                        <>
+                                                            {history.decision === 'APPROVED' ? 'Approved' : 'Rejected'} by {history.approver?.name}
+                                                            {history.note && <span className="block italic mt-1 bg-[var(--color-surface-container)] p-2 rounded">"{history.note}"</span>}
+                                                        </>
+                                                    ) : (
+                                                        'Waiting'
+                                                    )}
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* Version History */}
+                    <div className="bg-[var(--color-surface-container-lowest)] rounded-xl border border-[var(--color-surface-border)] shadow-[var(--shadow-enterprise)] p-6">
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-[20px] font-semibold text-[var(--color-on-surface)]">Version History</h3>
+                            {contract.status === 'DRAFT' && contract.created_by === auth.user.id && (
+                                <form onSubmit={handleUploadVersion} className="flex gap-2 items-center">
+                                    <label className="text-[var(--color-primary)] text-[12px] font-semibold hover:underline cursor-pointer">
+                                        Upload New
+                                        <input
+                                            type="file"
+                                            className="hidden"
+                                            accept=".pdf,.doc,.docx,.jpg,.png"
+                                            onChange={(e) => {
+                                                if(e.target.files && e.target.files[0]) {
+                                                    setVersionData('document', e.target.files[0]);
+                                                    // Trigger submit immediately after file select for better UX, or rely on a button. Let's just use a submit button.
+                                                }
+                                            }}
+                                        />
+                                    </label>
+                                    {versionData.document && (
+                                        <button type="submit" className="px-2 py-1 bg-[var(--color-surface-container-low)] text-[12px] rounded border border-[var(--color-surface-border)] hover:bg-[var(--color-surface-container-high)]">
+                                            Save
+                                        </button>
+                                    )}
+                                </form>
+                            )}
+                        </div>
+                        <ul className="space-y-3">
+                            {!contract.versions || contract.versions.length === 0 ? (
+                                <li className="text-[12px] text-[var(--color-secondary)]">No versions yet.</li>
+                            ) : (
+                                contract.versions.slice().reverse().map((version, index) => {
+                                    const isCurrent = index === 0;
+                                    return (
+                                        <li key={version.id} className="flex items-center justify-between p-2 rounded hover:bg-[var(--color-surface-bright)] transition-colors group cursor-pointer border border-transparent hover:border-[var(--color-surface-border)]">
+                                            <div className="flex items-center gap-3">
+                                                <span className={`material-symbols-outlined text-[20px] ${isCurrent ? 'text-[var(--color-secondary)]' : 'text-[var(--color-surface-border)]'}`}>description</span>
+                                                <div>
+                                                    <span className={`block text-[12px] font-semibold ${isCurrent ? 'text-[var(--color-on-surface)]' : 'text-[var(--color-secondary)]'}`}>
+                                                        v{version.version_number}.0 {isCurrent && '(Current)'}
+                                                    </span>
+                                                    <span className={`block text-[12px] ${isCurrent ? 'text-[var(--color-secondary)]' : 'text-[var(--color-surface-border)]'}`}>
+                                                        {new Date(version.created_at).toLocaleDateString()} • {version.uploader?.name}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <a href={`/storage/${version.file_path}`} target="_blank" rel="noreferrer" className="font-mono text-[13px] text-[var(--color-secondary)] opacity-0 group-hover:opacity-100 transition-opacity hover:underline">
+                                                View
+                                            </a>
+                                        </li>
+                                    );
+                                })
+                            )}
+                        </ul>
                     </div>
                 </div>
             </div>
-
-            {/* Reject Modal */}
-            {showRejectModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                    <div className="bg-white dark:bg-gray-800 rounded p-6 w-full max-w-md shadow-xl">
-                        <h3 className="text-lg font-bold mb-4">Reject Contract</h3>
-                        <form onSubmit={handleReject}>
-                            <div className="mb-4">
-                                <label className="block text-sm font-medium mb-1">Reason for Rejection (Required)</label>
-                                <textarea
-                                    required
-                                    rows={3}
-                                    value={data.note}
-                                    onChange={e => setData('note', e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-sm bg-transparent"
-                                    placeholder="Please provide details..."
-                                ></textarea>
-                                {errors.note && <div className="text-red-500 text-xs mt-1">{errors.note}</div>}
-                            </div>
-                            <div className="flex justify-end space-x-3">
-                                <button type="button" onClick={() => setShowRejectModal(false)} className="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-sm">Cancel</button>
-                                <button type="submit" disabled={processing} className="px-4 py-2 text-sm bg-red-600 text-white rounded-sm hover:bg-red-700 disabled:opacity-50">Confirm Rejection</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
-
-            {/* Approve Modal */}
-            {showApproveModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                    <div className="bg-white dark:bg-gray-800 rounded p-6 w-full max-w-md shadow-xl">
-                        <h3 className="text-lg font-bold mb-4">Approve Contract</h3>
-                        <form onSubmit={handleApprove}>
-                            <div className="mb-4">
-                                <label className="block text-sm font-medium mb-1">Approval Note (Optional)</label>
-                                <textarea
-                                    rows={3}
-                                    value={data.note}
-                                    onChange={e => setData('note', e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-sm bg-transparent"
-                                    placeholder="Add any notes..."
-                                ></textarea>
-                                {errors.note && <div className="text-red-500 text-xs mt-1">{errors.note}</div>}
-                            </div>
-                            <div className="flex justify-end space-x-3">
-                                <button type="button" onClick={() => setShowApproveModal(false)} className="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-sm">Cancel</button>
-                                <button type="submit" disabled={processing} className="px-4 py-2 text-sm bg-green-600 text-white rounded-sm hover:bg-green-700 disabled:opacity-50">Confirm Approval</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
         </AuthenticatedLayout>
     );
 }

@@ -26,6 +26,10 @@ class ContractController extends Controller
             $query->where('created_by', $user->id);
         }
 
+        if ($request->filled('search')) {
+            $query->where('title', 'ilike', '%' . $request->search . '%');
+        }
+
         $contracts = $query->latest()->get();
 
         return Inertia::render('Contracts/Index', [

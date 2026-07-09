@@ -1,0 +1,27 @@
+- generic [ref=e4]:
+  - generic [ref=e5]:
+    - generic [ref=e7]: V
+    - heading "Vendura" [level=1] [ref=e8]
+    - paragraph [ref=e9]: Sign in to your account
+  - generic [ref=e11]:
+    - generic [ref=e12]:
+      - generic [ref=e13]: Email
+      - textbox "Email" [active] [ref=e14]
+    - generic [ref=e15]:
+      - generic [ref=e16]: Password
+      - textbox "Password" [ref=e17]
+    - generic [ref=e18]:
+      - checkbox "Remember me" [ref=e19]
+      - generic [ref=e20]: Remember me
+    - button "Sign In" [ref=e22]
+  - generic [ref=e23]:
+    - paragraph [ref=e24]: Demo Accounts
+    - paragraph [ref=e25]:
+      - code [ref=e26]: admin@vendura.test
+      - code [ref=e27]: manager@vendura.test
+    - paragraph [ref=e28]:
+      - code [ref=e29]: finance@vendura.test
+      - code [ref=e30]: direktur@vendura.test
+    - paragraph [ref=e31]:
+      - text: "Password:"
+      - code [ref=e32]: password

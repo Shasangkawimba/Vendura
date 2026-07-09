@@ -51,7 +51,7 @@ export interface Contract {
     vendor?: Vendor;
     creator?: User;
     versions?: ContractVersion[];
-    approvalHistories?: ApprovalHistory[];
+    approval_histories?: ApprovalHistory[];
 }
 
 export type PageProps<

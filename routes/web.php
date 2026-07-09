@@ -18,6 +18,9 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
+    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+
     Route::resource('contracts', App\Http\Controllers\ContractController::class)->only(['index', 'create', 'store', 'show']);
     
     Route::post('/contracts/{contract}/submit', [App\Http\Controllers\ApprovalController::class, 'submit'])->name('contracts.submit');

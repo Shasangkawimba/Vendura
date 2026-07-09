@@ -10,7 +10,7 @@ class VendorController extends Controller
     public function index()
     {
         return Inertia::render('Vendors/Index', [
-            'vendors' => Vendor::withCount('contracts')->get(),
+            'vendors' => Vendor::with(['complianceRequirements'])->withCount('contracts')->get(),
         ]);
     }
 

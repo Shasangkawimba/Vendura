@@ -1,20 +1,55 @@
 import { Contract } from '@/types';
 
-export default function ContractStatusBadge({ status }: { status: Contract['status'] }) {
-    const statusConfig = {
-        'DRAFT': { bg: 'bg-gray-100 dark:bg-gray-800', text: 'text-gray-800 dark:text-gray-300', label: 'Draft' },
-        'MENUNGGU_MANAGER': { bg: 'bg-yellow-100 dark:bg-yellow-900', text: 'text-yellow-800 dark:text-yellow-300', label: 'Waiting Manager' },
-        'MENUNGGU_FINANCE': { bg: 'bg-yellow-100 dark:bg-yellow-900', text: 'text-yellow-800 dark:text-yellow-300', label: 'Waiting Finance' },
-        'MENUNGGU_DIREKTUR': { bg: 'bg-yellow-100 dark:bg-yellow-900', text: 'text-yellow-800 dark:text-yellow-300', label: 'Waiting Direktur' },
-        'AKTIF': { bg: 'bg-green-100 dark:bg-green-900', text: 'text-green-800 dark:text-green-300', label: 'Active' },
-        'DITOLAK': { bg: 'bg-red-100 dark:bg-red-900', text: 'text-red-800 dark:text-red-300', label: 'Rejected' },
-        'EXPIRED': { bg: 'bg-orange-100 dark:bg-orange-900', text: 'text-orange-800 dark:text-orange-300', label: 'Expired' },
-    };
+const statusConfig: Record<Contract['status'], { bg: string; text: string; border: string; label: string }> = {
+    'DRAFT': {
+        bg: 'bg-slate-100',
+        text: 'text-slate-600',
+        border: 'border-slate-200',
+        label: 'Draft',
+    },
+    'MENUNGGU_MANAGER': {
+        bg: 'bg-amber-100',
+        text: 'text-amber-700',
+        border: 'border-amber-200',
+        label: 'Waiting Manager',
+    },
+    'MENUNGGU_FINANCE': {
+        bg: 'bg-amber-100',
+        text: 'text-amber-700',
+        border: 'border-amber-200',
+        label: 'Waiting Finance',
+    },
+    'MENUNGGU_DIREKTUR': {
+        bg: 'bg-amber-100',
+        text: 'text-amber-700',
+        border: 'border-amber-200',
+        label: 'Waiting Direktur',
+    },
+    'AKTIF': {
+        bg: 'bg-emerald-100',
+        text: 'text-emerald-700',
+        border: 'border-emerald-200',
+        label: 'Active',
+    },
+    'DITOLAK': {
+        bg: 'bg-red-100',
+        text: 'text-red-700',
+        border: 'border-red-200',
+        label: 'Rejected',
+    },
+    'EXPIRED': {
+        bg: 'bg-slate-100',
+        text: 'text-slate-600',
+        border: 'border-slate-200',
+        label: 'Expired',
+    },
+};
 
+export default function ContractStatusBadge({ status }: { status: Contract['status'] }) {
     const config = statusConfig[status] || statusConfig['DRAFT'];
 
     return (
-        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${config.bg} ${config.text}`}>
+        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-[var(--radius-pill)] text-[12px] font-semibold tracking-wide ${config.bg} ${config.text}`}>
             {config.label}
         </span>
     );

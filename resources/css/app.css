@@ -1,1 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* Stitch Brand Colors */
+  --color-primary: #041638;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #1b2b4e;
+  --color-on-primary-container: #8393bc;
+  
+  --color-secondary: #515f74;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #d5e3fc;
+  --color-on-secondary-container: #57657a;
+  
+  --color-tertiary: #00163a;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #002a61;
+  --color-on-tertiary-container: #5391ff;
+
+  /* Surfaces */
+  --color-bg-canvas: #f7f9fb;
+  --color-surface: #f7f9fb;
+  --color-surface-dim: #d8dadc;
+  --color-surface-bright: #f7f9fb;
+  
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f2f4f6;
+  --color-surface-container: #eceef0;
+  --color-surface-container-high: #e6e8ea;
+  --color-surface-container-highest: #e0e3e5;
+  
+  --color-on-surface: #191c1e;
+  --color-on-surface-variant: #45464e;
+  
+  --color-outline: #75777f;
+  --color-outline-variant: #c5c6cf;
+  --color-border-subtle: #E2E8F0;
+
+  /* Status Colors */
+  --color-status-draft: #94a3b8;
+  --color-status-pending: #f59e0b;
+  --color-status-active: #10b981;
+  --color-status-rejected: #ef4444;
+
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+
+  /* Shadows */
+  --shadow-enterprise: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-dropdown: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* Radius */
+  --radius-soft: 0.125rem;
+  --radius-button: 0.25rem;
+  --radius-card: 0.5rem;
+  --radius-pill: 0.75rem;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  body {
+    background-color: var(--color-bg-canvas);
+    color: #0f172a;
+  }
+}
+
+/* Utility: tabular numerals for data-heavy UI */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Smooth transitions on interactive elements */
+@layer utilities {
+  .transition-default {
+    transition-property: color, background-color, border-color, opacity, transform, box-shadow;
+    transition-duration: 150ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}

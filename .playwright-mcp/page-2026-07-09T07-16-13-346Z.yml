@@ -1,0 +1,79 @@
+- generic [active] [ref=f10e1]:
+  - generic [ref=f10e150]:
+    - complementary [ref=f10e151]:
+      - link [ref=f10e153] [cursor=pointer]:
+        - /url: /dashboard
+        - img [ref=f10e154]
+      - navigation [ref=f10e158]:
+        - link "Dashboard" [ref=f10e159] [cursor=pointer]:
+          - /url: /dashboard
+          - img [ref=f10e161]
+          - text: Dashboard
+        - link "Contracts" [ref=f10e163] [cursor=pointer]:
+          - /url: /contracts
+          - img [ref=f10e165]
+          - text: Contracts
+        - link "Vendors & Compliance" [ref=f10e167] [cursor=pointer]:
+          - /url: /vendors
+          - img [ref=f10e169]
+          - text: Vendors & Compliance
+      - generic [ref=f10e171]:
+        - generic [ref=f10e172]:
+          - generic [ref=f10e174]: M
+          - generic [ref=f10e175]:
+            - generic [ref=f10e176]: Manager Procurement
+            - generic [ref=f10e177]: MANAGER
+        - button "Sign out" [ref=f10e178]
+    - main [ref=f10e179]:
+      - generic [ref=f10e182]:
+        - heading "Dashboard" [level=2] [ref=f10e183]
+        - paragraph [ref=f10e184]: Welcome back, Manager Procurement
+      - generic [ref=f10e186]:
+        - generic [ref=f10e187]:
+          - link "Active Contracts 2" [ref=f10e188] [cursor=pointer]:
+            - /url: /contracts
+            - generic [ref=f10e189]:
+              - paragraph [ref=f10e190]: Active Contracts
+              - paragraph [ref=f10e191]: "2"
+          - generic [ref=f10e192]:
+            - paragraph [ref=f10e193]: Expiring Soon
+            - paragraph [ref=f10e194]: "0"
+          - link "Pending Approval 0" [ref=f10e195] [cursor=pointer]:
+            - /url: /contracts
+            - generic [ref=f10e196]:
+              - paragraph [ref=f10e197]: Pending Approval
+              - paragraph [ref=f10e198]: "0"
+          - link "Drafts 1" [ref=f10e199] [cursor=pointer]:
+            - /url: /contracts
+            - generic [ref=f10e200]:
+              - paragraph [ref=f10e201]: Drafts
+              - paragraph [ref=f10e202]: "1"
+        - generic [ref=f10e203]:
+          - generic [ref=f10e204]:
+            - generic [ref=f10e205]:
+              - heading "Compliance by Vendor" [level=3] [ref=f10e206]
+              - link "View all" [ref=f10e207] [cursor=pointer]:
+                - /url: /vendors
+            - application [ref=f10e211]:
+              - generic [ref=f10e215]:
+                - generic [ref=f10e216]:
+                  - generic [ref=f10e218]: PT Maju Bersama
+                  - generic [ref=f10e220]: Tech Solusi Nusantara
+                - generic [ref=f10e221]:
+                  - generic [ref=f10e223]: 0%
+                  - generic [ref=f10e225]: 25%
+                  - generic [ref=f10e227]: 50%
+                  - generic [ref=f10e229]: 75%
+                  - generic [ref=f10e231]: 100%
+          - generic [ref=f10e232]:
+            - heading "Action Required" [level=3] [ref=f10e233]
+            - generic [ref=f10e234]:
+              - img [ref=f10e236]
+              - paragraph [ref=f10e238]: All Compliant
+              - paragraph [ref=f10e239]: Every vendor has met their compliance requirements.
+        - generic [ref=f10e240]:
+          - generic [ref=f10e241]: "Total vendors: 2"
+          - generic [ref=f10e242]:
+            - text: "Avg. compliance:"
+            - generic [ref=f10e243]: 100%
+  - generic [ref=f10e111]: 0%

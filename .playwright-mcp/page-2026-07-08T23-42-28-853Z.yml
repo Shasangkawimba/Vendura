@@ -1,0 +1,61 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e23]:
+    - complementary [ref=e24]:
+      - generic [ref=e26]: Vendura
+      - navigation [ref=e27]:
+        - link "Dashboard" [ref=e28] [cursor=pointer]:
+          - /url: /dashboard
+        - link "Contracts" [ref=e29] [cursor=pointer]:
+          - /url: /contracts
+        - link "Vendors & Compliance" [ref=e30] [cursor=pointer]:
+          - /url: /vendors
+      - generic [ref=e31]:
+        - generic [ref=e32]: System Admin
+        - generic [ref=e33]: ADMIN
+        - button "Log Out" [ref=e34]
+    - main [ref=e35]:
+      - heading "Dashboard" [level=2] [ref=e38]
+      - generic [ref=e40]:
+        - generic [ref=e41]:
+          - generic [ref=e42]:
+            - heading "Active Contracts" [level=4] [ref=e43]
+            - paragraph [ref=e44]: "2"
+          - generic [ref=e45]:
+            - heading "Expiring Soon (30 Days)" [level=4] [ref=e46]
+            - paragraph [ref=e47]: "0"
+          - generic [ref=e48]:
+            - heading "Pending Approval" [level=4] [ref=e49]
+            - paragraph [ref=e50]: "0"
+          - generic [ref=e51]:
+            - heading "Drafts" [level=4] [ref=e52]
+            - paragraph [ref=e53]: "1"
+        - generic [ref=e54]:
+          - generic [ref=e55]:
+            - heading "Vendor Compliance Rate (%)" [level=3] [ref=e56]
+            - generic [ref=e59]:
+              - generic:
+                - status:
+                  - paragraph: Tech Solusi Nusantara
+                  - list:
+                    - listitem: "Compliance % : 100"
+              - application [ref=e60]:
+                - generic [ref=e65]:
+                  - generic [ref=e68]: Tech Solusi Nusantara
+                  - generic [ref=e69]:
+                    - generic [ref=e71]: "0"
+                    - generic [ref=e73]: "25"
+                    - generic [ref=e75]: "50"
+                    - generic [ref=e77]: "75"
+                    - generic [ref=e79]: "100"
+          - generic [ref=e80]:
+            - heading "Compliance Action Required" [level=3] [ref=e81]
+            - table [ref=e83]:
+              - rowgroup [ref=e84]:
+                - row "Vendor Fulfilled Status" [ref=e85]:
+                  - columnheader "Vendor" [ref=e86]
+                  - columnheader "Fulfilled" [ref=e87]
+                  - columnheader "Status" [ref=e88]
+              - rowgroup [ref=e89]:
+                - row "All vendors are 100% compliant." [ref=e90]:
+                  - cell "All vendors are 100% compliant." [ref=e91]
+  - generic [ref=e92]: "0"
